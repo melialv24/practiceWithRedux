@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import { increment, decrement, incrementBy } from "./store/slices/counter";
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { counter } = useSelector((state) => state.counter);
+  const dispatch = useDispatch();
+  const [amount, setAmount] = useState(1);
 
   return (
     <div className="App">
@@ -17,9 +21,21 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => dispatch(increment())}>
+          count is {counter}
         </button>
+        <button onClick={() => dispatch(decrement())}>decrement</button>
+        <button onClick={() => dispatch(incrementBy(amount))}>
+          Increment by {amount}
+        </button>
+      </div>
+      <div className="card">
+        <input
+          name="amountBy"
+          value={amount}
+          type="number"
+          onChange={(e) => setAmount(e.target.value)}
+        />
       </div>
     </div>
   );
